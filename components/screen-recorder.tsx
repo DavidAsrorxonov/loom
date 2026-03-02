@@ -50,6 +50,10 @@ const ScreenRecorder = () => {
 
       mediaRecorderRef.current = mediaRecorder;
       chunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) chunksRef.current.push(event.data);
+      };
     } catch (error) {}
   };
 
