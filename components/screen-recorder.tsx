@@ -16,6 +16,24 @@ const ScreenRecorder = () => {
 
   const router = useRouter();
 
+  const startRecording = async () => {
+    try {
+      const screenStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+        audio: false,
+      });
+
+      const micStream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          sampleRate: 44100,
+        },
+        video: false,
+      });
+    } catch (error) {}
+  };
+
   return <div>ScreenRecorder</div>;
 };
 
