@@ -1,6 +1,7 @@
 "use client";
 
 import { createUploadURL, getAssetIdFromUpload } from "@/app/actions";
+import { Monitor, Video } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
@@ -112,7 +113,37 @@ const ScreenRecorder = () => {
     }
   };
 
-  return <div>ScreenRecorder</div>;
+  return (
+    <div className="flex flex-col items-center gap-6 p-8 bg-slate-900 rounded-xl border border-slate-700 w-full max-w-md shadow-2xl">
+      <h2 className="text-2xl font-bold text-white">
+        {isRecording ? "Recording..." : "New Recording"}
+      </h2>
+
+      <div className="w-full aspect-video bg-black rounded-lg border border-slate-800 flex items-center justify-center relative overflow-hidden">
+        <video
+          ref={liveVideoRef}
+          autoPlay
+          playsInline
+          muted
+          className={`w-full h-full object-cover ${isRecording ? "block" : "hidden"}`}
+        />
+
+        {!isRecording && mediaBlob && (
+          <div className="text-emerald-400 flex flex-col items-center">
+            <Video className="w-12 h-12 mb-2" />
+            <span>Recording Ready</span>
+          </div>
+        )}
+
+        {!isRecording && !mediaBlob && (
+          <div className="text-slate-600 flex flex-col items-center">
+            <Monitor className="w-12 h-12 mb-2 opacity-50" />
+            <span>Preview Area</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default ScreenRecorder;
