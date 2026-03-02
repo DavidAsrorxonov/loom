@@ -1,7 +1,7 @@
 "use client";
 
 import { createUploadURL, getAssetIdFromUpload } from "@/app/actions";
-import { Monitor, StopCircle, Video } from "lucide-react";
+import { Loader2, Monitor, StopCircle, Video } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
@@ -153,7 +153,7 @@ const ScreenRecorder = () => {
         {!isRecording && !mediaBlob && (
           <button
             onClick={startRecording}
-            className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium"
+            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium"
           >
             Start Recording
           </button>
@@ -162,14 +162,26 @@ const ScreenRecorder = () => {
         {isRecording && (
           <button
             onClick={stopRecording}
-            className="w-full py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium flex justify-center items-center gap-2"
+            className="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium flex justify-center items-center gap-2"
           >
             <StopCircle className="w-5 h-5" />
             Stop Recording
           </button>
         )}
 
-        {mediaBlob && <div></div>}
+        {mediaBlob && (
+          <button
+            onClick={handleUpload}
+            disabled={isUploading}
+            className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isUploading ? (
+              <Loader2 className="animate-spin w-5 h-5" />
+            ) : (
+              "Upload & Share"
+            )}
+          </button>
+        )}
       </div>
     </div>
   );
