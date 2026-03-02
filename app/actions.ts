@@ -26,3 +26,17 @@ export async function createUploadURL() {
 
   return upload;
 }
+
+export async function getAssetIdFromUpload(uploadId: string) {
+  const upload = await mux.video.uploads.retrieve(uploadId);
+
+  if (upload.asset_id) {
+    const asset = await mux.video.assets.retrieve(upload.asset_id);
+    return {
+      playbackId: asset.playback_ids?.[0]?.id,
+      status: asset.status,
+    };
+  }
+
+  return { status: "waiting" };
+}
