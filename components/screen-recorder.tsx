@@ -67,6 +67,9 @@ const ScreenRecorder = () => {
         screenStreamRef.current?.getTracks().forEach((t) => t.stop());
         micStreamRef.current?.getTracks().forEach((t) => t.stop());
       };
+
+      mediaRecorder.start();
+      setIsRecording(true);
     } catch (error) {}
   };
 
