@@ -83,7 +83,20 @@ export async function getAssetsStatus(playback_id: string) {
         const response = await fetch(vttUrl);
         const vttText = await response.text();
 
-        const blocks = vttText.split;
+        const blocks = vttText.split("\n\n");
+
+        transcript = blocks.reduce(
+          (acc: { time: string; text: string }[], block) => {
+            const lines = block.split("\n");
+            if (lines.length >= 2 && lines[1].includes("-->")) {
+              const time = formatVttTime(lines[1].split("-->")[0]);
+              const text = lines.slice(2).join(" ");
+              if (text.trim()) acc.push({ time, text });
+            }
+            return acc;
+          },
+          [],
+        );
       }
     }
   } catch (error) {}
