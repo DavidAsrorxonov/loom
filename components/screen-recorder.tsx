@@ -54,6 +54,19 @@ const ScreenRecorder = () => {
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) chunksRef.current.push(event.data);
       };
+
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunksRef.current, { type: "video/webm" });
+
+        setMediaBlob(blob);
+
+        if (liveVideoRef.current) {
+          liveVideoRef.current.srcObject = null;
+        }
+
+        screenStreamRef.current?.getTracks().forEach((t) => t.stop());
+        micStreamRef.current?.getTracks().forEach((t) => t.stop());
+      };
     } catch (error) {}
   };
 
