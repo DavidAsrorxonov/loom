@@ -70,7 +70,18 @@ const ScreenRecorder = () => {
 
       mediaRecorder.start();
       setIsRecording(true);
-    } catch (error) {}
+
+      screenStream.getVideoTracks()[0].onended = stopRecording;
+    } catch (error) {
+      console.error("Error starting recording:", error);
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+    }
   };
 
   return <div>ScreenRecorder</div>;
