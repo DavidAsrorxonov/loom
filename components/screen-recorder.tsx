@@ -1,6 +1,6 @@
 "use client";
 
-import { createUploadURL } from "@/app/actions";
+import { createUploadURL, getAssetIdFromUpload } from "@/app/actions";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
@@ -97,7 +97,19 @@ const ScreenRecorder = () => {
         method: "PUT",
         body: mediaBlob,
       });
-    } catch (error) {}
+
+      while (true) {
+        const result = await getAssetIdFromUpload(uploadConfig.id);
+        if (result.playbackId) {
+          router.push(`/video/${result.playbackId}`);
+          break;
+        }
+        await new Promise((r) => setTimeout(r, 1000));
+      }
+    } catch (error) {
+      console.error("Upload failed", error);
+      setIsUploading(false);
+    }
   };
 
   return <div>ScreenRecorder</div>;
