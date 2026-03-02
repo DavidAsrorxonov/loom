@@ -1,5 +1,6 @@
 "use client";
 
+import { createUploadURL } from "@/app/actions";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
@@ -90,6 +91,12 @@ const ScreenRecorder = () => {
     setIsUploading(true);
 
     try {
+      const uploadConfig = await createUploadURL();
+
+      await fetch(uploadConfig.url, {
+        method: "PUT",
+        body: mediaBlob,
+      });
     } catch (error) {}
   };
 
