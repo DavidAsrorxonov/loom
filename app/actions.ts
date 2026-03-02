@@ -53,3 +53,38 @@ export async function listAllTheVideos() {
     return [];
   }
 }
+
+function formatVttTime(timestamp: string) {
+  return timestamp.split(".")[0];
+}
+
+export async function getAssetsStatus(playback_id: string) {
+  try {
+    const assets = await mux.video.assets.list({ limit: 100 });
+    const asset = assets.data.find((a) =>
+      a.playback_ids?.some((p) => p.id === playback_id),
+    );
+
+    if (!asset) return { status: "errored", transcript: [] };
+
+    let transcript: { time: string; text: string }[] = [];
+    let transcriptStatus = "preparing";
+
+    if (asset.status === "ready" && asset.tracks) {
+      const textTrack = asset.tracks.find(
+        (t) => t.type === "text" && t.text_type === "subtitles",
+      );
+
+      if (textTrack && textTrack.status === "ready") {
+        transcriptStatus = "ready";
+
+        const vttUrl = `https://stream.mux.com/${playback_id}/text/${textTrack.id}.vtt`;
+
+        const response = await fetch(vttUrl);
+        const vttText = await response.text();
+
+        const blocks = vttText.split;
+      }
+    }
+  } catch (error) {}
+}
