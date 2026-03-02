@@ -84,6 +84,12 @@ const ScreenRecorder = () => {
     }
   };
 
+  const handleUpload = async () => {
+    if (!mediaBlob) return;
+
+    setIsUploading(true);
+  };
+
   return <div>ScreenRecorder</div>;
 };
 
