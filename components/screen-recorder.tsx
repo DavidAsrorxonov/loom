@@ -88,6 +88,9 @@ const ScreenRecorder = () => {
     if (!mediaBlob) return;
 
     setIsUploading(true);
+
+    try {
+    } catch (error) {}
   };
 
   return <div>ScreenRecorder</div>;
