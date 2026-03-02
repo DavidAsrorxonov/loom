@@ -99,5 +99,13 @@ export async function getAssetsStatus(playback_id: string) {
         );
       }
     }
-  } catch (error) {}
+
+    return {
+      status: asset.status,
+      transcriptStatus,
+      transcript,
+    };
+  } catch (error) {
+    return { status: "errored", transcriptStatus: "errored", transcript: [] };
+  }
 }
