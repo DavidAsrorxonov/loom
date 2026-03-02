@@ -39,6 +39,17 @@ const ScreenRecorder = () => {
         ...screenStream.getVideoTracks(),
         ...micStream.getAudioTracks(),
       ]);
+
+      if (liveVideoRef.current) {
+        liveVideoRef.current.srcObject = combinedStream;
+      }
+
+      const mediaRecorder = new MediaRecorder(combinedStream, {
+        mimeType: "video/webm; codecs=vp9",
+      });
+
+      mediaRecorderRef.current = mediaRecorder;
+      chunksRef.current = [];
     } catch (error) {}
   };
 
