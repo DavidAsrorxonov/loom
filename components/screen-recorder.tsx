@@ -31,6 +31,14 @@ const ScreenRecorder = () => {
         },
         video: false,
       });
+
+      screenStreamRef.current = screenStream;
+      micStreamRef.current = micStream;
+
+      const combinedStream = new MediaStream([
+        ...screenStream.getVideoTracks(),
+        ...micStream.getAudioTracks(),
+      ]);
     } catch (error) {}
   };
 
