@@ -1,7 +1,7 @@
 "use client";
 
 import { createUploadURL, getAssetIdFromUpload } from "@/app/actions";
-import { Monitor, Video } from "lucide-react";
+import { Monitor, StopCircle, Video } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
@@ -141,6 +141,35 @@ const ScreenRecorder = () => {
             <span>Preview Area</span>
           </div>
         )}
+
+        {isRecording && (
+          <div className="absolute top-4 right-4 animate-pulse">
+            <div className="w-3 h-3 bg-red-500 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.6)]" />
+          </div>
+        )}
+      </div>
+
+      <div className="flex w-full gap-4">
+        {!isRecording && !mediaBlob && (
+          <button
+            onClick={startRecording}
+            className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium"
+          >
+            Start Recording
+          </button>
+        )}
+
+        {isRecording && (
+          <button
+            onClick={stopRecording}
+            className="w-full py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium flex justify-center items-center gap-2"
+          >
+            <StopCircle className="w-5 h-5" />
+            Stop Recording
+          </button>
+        )}
+
+        {mediaBlob && <div></div>}
       </div>
     </div>
   );
