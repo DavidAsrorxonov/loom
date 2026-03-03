@@ -1,0 +1,26 @@
+"use client";
+
+import { Check, Share2 } from "lucide-react";
+import { useState } from "react";
+
+const ShareButton = () => {
+  const [copied, setCopied] = useState<boolean>(false);
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <button
+      onClick={handleShare}
+      className="flex items-center gap-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+    >
+      {copied ? <Check className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
+      {copied ? "Copied Link!" : "Share Video"}
+    </button>
+  );
+};
+
+export default ShareButton;
